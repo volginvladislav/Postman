@@ -412,6 +412,169 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "N_5_new",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// 1. Вставить параметр salary из окружения в request\r",
+							"// 2. Вставить параметр age из окружения в age\r",
+							"// 3. Вставить параметр name из окружения в name\r",
+							"// 4. Отправить запрос.\r",
+							"// 5. Статус код 200\r",
+							"pm.test(\"code has status 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// 6. Спарсить response body в json.\r",
+							"let jsonResp = pm.response.json();\r",
+							"\r",
+							"// 7. Спарсить request.\r",
+							"let jsonReq = request.data;\r",
+							"\r",
+							"// 8. Проверить, что json response имеет параметр start_qa_salary\r",
+							"pm.test(\"jsonResp has start_qa_salary\", function() {\r",
+							"    pm.expect(jsonResp).to.include.keys(\"start_qa_salary\");\r",
+							"});\r",
+							"\r",
+							"// 9. Проверить, что json response имеет параметр qa_salary_after_6_months\r",
+							"pm.test(\"jsonResp has qa_salary_after_6_month\", function () {\r",
+							"    pm.expect(jsonResp).to.include.keys(\"qa_salary_after_6_months\");\r",
+							"});\r",
+							"\r",
+							"// 10. Проверить, что json response имеет параметр qa_salary_after_12_months\r",
+							"pm.test(\"jsonResp has qa_salary_after_12_months\", function () {\r",
+							"    pm.expect(jsonResp).to.include.keys(\"qa_salary_after_12_months\");\r",
+							"});\r",
+							"\r",
+							"// 11. Проверить, что json response имеет параметр qa_salary_after_1.5_year\r",
+							"pm.test(\"jsonResp has qa_salary_after_1.5_year\", function () {\r",
+							"    pm.expect(jsonResp).to.include.keys(\"qa_salary_after_1.5_year\");\r",
+							"});\r",
+							"\r",
+							"// 12. Проверить, что json response имеет параметр qa_salary_after_3.5_years\r",
+							"pm.test(\"jsonResp has qa_salary_after_3.5_years\", function () {\r",
+							"    pm.expect(jsonResp).to.include.keys(\"qa_salary_after_3.5_years\");\r",
+							"});\r",
+							"//13. Проверить, что json response имеет параметр person\r",
+							"pm.test(\"jsonResp has qa_salary_after_3.5_years\", function () {\r",
+							"    pm.expect(jsonResp).to.include.keys(\"qa_salary_after_3.5_years\");\r",
+							"});\r",
+							"\r",
+							"//Проверка пунктов 8 - 12 (have - если знаем, что это все ключи. include - если просто проверяем сразу несколько ключей)\r",
+							"pm.test(\"check all keys_1\", function () {\r",
+							"    pm.expect(jsonResp).to.have.keys(\"qa_salary_after_6_months\",\"person\",\"qa_salary_after_1.5_year\",\"qa_salary_after_12_months\",\"qa_salary_after_3.5_years\",\"start_qa_salary\");\r",
+							"});\r",
+							"pm.test(\"check all keys_2\", function () {\r",
+							"    pm.expect(jsonResp).to.include.keys(\"qa_salary_after_6_months\",\"person\",\"qa_salary_after_1.5_year\",\"qa_salary_after_12_months\",\"qa_salary_after_3.5_years\",\"start_qa_salary\");\r",
+							"});\r",
+							"\r",
+							"//14. Проверить, что параметр start_qa_salary равен salary из request (salary забрать из request.)\r",
+							"console.log(\"jsonResp.start_qa_salary =\",jsonResp.start_qa_salary);\r",
+							"console.log(\"jsonReq.salary =\",jsonReq.salary);\r",
+							"pm.test(\"jsonResp.start_qa_salary = jsonReq.salary\", function() {\r",
+							"    pm.expect(jsonResp.start_qa_salary == jsonReq.salary).to.be.true;\r",
+							"});\r",
+							"\r",
+							"//15. Проверить, что параметр qa_salary_after_6_months равен salary*2 из request (salary забрать из request.)\r",
+							"pm.test(\"qa_salary_after_6_months = jsonReq.salary*2\", function() {\r",
+							"    pm.expect(jsonResp.qa_salary_after_6_months).to.eql(jsonReq.salary * 2);\r",
+							"});\r",
+							"\r",
+							"//16. Проверить, что параметр qa_salary_after_12_months равен salary*2.7 из request (salary забрать из request.)\r",
+							"pm.test(\"qa_salary_after_12_months = jsonReq.salary*2.7\", function() {\r",
+							"    pm.expect(jsonResp.qa_salary_after_12_months).to.eql(jsonReq.salary * 2.7);\r",
+							"});\r",
+							"\r",
+							"//17. Проверить, что параметр qa_salary_after_1.5_year равен salary*3.3 из request (salary забрать из request.)\r",
+							"pm.test(\"qa_salary_after_1.5_months = jsonReq.salary*3.3\", function() {\r",
+							"    pm.expect(jsonResp[\"qa_salary_after_1.5_year\"]).to.eql(jsonReq.salary * 3.3);\r",
+							"});\r",
+							"\r",
+							"//18. Проверить, что параметр qa_salary_after_3.5_years равен salary*3.8 из request (salary забрать из request.)\r",
+							"pm.test(\"qa_salary_after_3.5_years = jsonReq.salary*2.7\", function() {\r",
+							"    pm.expect(jsonResp[\"qa_salary_after_3.5_years\"]).to.eql(jsonReq.salary * 3.8);\r",
+							"});\r",
+							"\r",
+							"//19. Проверить, что в параметре person, 1-й элемент из u_name равен salary из request (salary забрать из request.)\r",
+							"pm.test(\"person.u_name[1] = jsonReq.salary\", function () {\r",
+							"    pm.expect(jsonResp.person.u_name[1]).to.eql(+jsonReq.salary);\r",
+							"});\r",
+							"\r",
+							"// 20. Проверить, что что параметр u_age равен age из request (age забрать из request.)\r",
+							"\r",
+							"pm.test(\"person.u_age = jsonReq.age\", function () {\r",
+							"    pm.expect(jsonResp.person.u_age).to.eql(+jsonReq.age);\r",
+							"});\r",
+							"\r",
+							"// 21. Проверить, что параметр u_salary_5_years равен salary*4.2 из request (salary забрать из request.)\r",
+							"\r",
+							"pm.test(\"u_salary_5_years = jsonReq.salary*4.2\", function () {\r",
+							"    pm.expect(jsonResp.person.u_salary_5_years).to.eql(jsonReq.salary * 4.2);\r",
+							"});\r",
+							"\r",
+							"// 22. ***Написать цикл который выведет в консоль по порядку элементы списка из параметра person.\r",
+							"let pers = jsonResp.person;\r",
+							"    for (let i in pers) {\r",
+							"        if (typeof (pers[i]) === \"object\") {\r",
+							"             let arr_pers = pers[i];\r",
+							"             console.log(\"key:\", i, \"type \", typeof pers[i]);\r",
+							"             for (let j = 0; j < arr_pers.length; j++) {\r",
+							"                console.log(\"Элемент -\", String(j),arr_pers[j]);\r",
+							"             }\r",
+							"        }\r",
+							"        else {\r",
+							"            console.log(\"key:\", i, \"value\", pers[i])\r",
+							"        }\r",
+							"    }\r",
+							"        "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "{{name}}",
+							"type": "text"
+						},
+						{
+							"key": "age",
+							"value": "{{age}}",
+							"type": "text"
+						},
+						{
+							"key": "salary",
+							"value": "{{salary}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://162.55.220.72:5005/user_info_2",
+					"protocol": "http",
+					"host": [
+						"162",
+						"55",
+						"220",
+						"72"
+					],
+					"port": "5005",
+					"path": [
+						"user_info_2"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
